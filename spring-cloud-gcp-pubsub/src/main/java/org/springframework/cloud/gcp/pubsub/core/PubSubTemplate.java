@@ -29,7 +29,6 @@ import com.google.pubsub.v1.TopicName;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cloud.gcp.pubsub.converters.SimpleMessageConverter;
-import org.springframework.cloud.gcp.pubsub.integration.converters.SimpleMessageConverter;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.converter.MessageConversionException;
 import org.springframework.messaging.converter.MessageConverter;
@@ -47,21 +46,15 @@ public class PubSubTemplate implements PubSubOperations, InitializingBean {
 
 	private ExecutorProvider executorProvider;
 
-	private MessageConverter messageConverter;
+	private MessageConverter messageConverter = new SimpleMessageConverter();
 
 	private int concurrentProducers = 1;
 
-  public PubSubTemplate(GoogleCredentials credentials, String projectId) {
-    this(credentials, projectId, new SimpleMessageConverter());
-  }
-
-	public PubSubTemplate(GoogleCredentials credentials, String projectId,
-      MessageConverter messageConverter) {
+	public PubSubTemplate(GoogleCredentials credentials, String projectId) {
 		this.projectId = projectId;
 		this.credentials = credentials;
 		this.executorProvider = InstantiatingExecutorProvider.newBuilder()
 				.setExecutorThreadCount(concurrentProducers).build();
-		this.messageConverter = new SimpleMessageConverter();
 	}
 
 	@Override
@@ -95,5 +88,14 @@ public class PubSubTemplate implements PubSubOperations, InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 
+	}
+
+	public MessageConverter getMessageConverter() {
+		return messageConverter;
+	}
+
+	public void setMessageConverter(
+			MessageConverter messageConverter) {
+		this.messageConverter = messageConverter;
 	}
 }
