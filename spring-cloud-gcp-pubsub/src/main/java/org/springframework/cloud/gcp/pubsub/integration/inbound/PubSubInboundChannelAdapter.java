@@ -22,7 +22,7 @@ import com.google.pubsub.v1.PubsubMessage;
 import com.google.pubsub.v1.SubscriptionName;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.cloud.gcp.support.GcpHeaders;
+import org.springframework.cloud.gcp.pubsub.support.GcpHeaders;
 import org.springframework.integration.endpoint.MessageProducerSupport;
 import org.springframework.messaging.MessageHeaders;
 
