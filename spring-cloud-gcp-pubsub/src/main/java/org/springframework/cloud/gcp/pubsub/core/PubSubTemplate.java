@@ -64,25 +64,24 @@ public class PubSubTemplate implements PubSubOperations, InitializingBean {
 			try {
 				return Publisher.defaultBuilder(TopicName.create(projectId, topic))
 						.setExecutorProvider(executorProvider).build();
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			return null;
 		});
 
-    Object pubsubMessageObject = messageConverter.fromMessage(message, PubsubMessage.class);
+		Object pubsubMessageObject = messageConverter.fromMessage(message, PubsubMessage.class);
 
-    if (!(pubsubMessageObject instanceof PubsubMessage)) {
-      throw new MessageConversionException("The specified converter must produce"
-          + "PubsubMessages to send to Google Cloud Pub/Sub.");
-    }
+		if (!(pubsubMessageObject instanceof PubsubMessage)) {
+			throw new MessageConversionException("The specified converter must produce"
+					+ "PubsubMessages to send to Google Cloud Pub/Sub.");
+		}
 
-    try {
-      return publisher.publish((PubsubMessage) pubsubMessageObject).get();
-    } catch (Exception e) {
-      throw new RuntimeException(e);
-    }
+		try {
+			return publisher.publish((PubsubMessage) pubsubMessageObject).get();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
