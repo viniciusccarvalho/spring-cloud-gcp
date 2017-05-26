@@ -93,8 +93,7 @@ public class PubSubTemplate implements PubSubOperations, InitializingBean {
 		return messageConverter;
 	}
 
-	public void setMessageConverter(
-			MessageConverter messageConverter) {
+	public void setMessageConverter(MessageConverter messageConverter) {
 		this.messageConverter = messageConverter;
 	}
 }
