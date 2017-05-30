@@ -20,19 +20,18 @@ package org.springframework.cloud.gcp.pubsub.core;
 import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.cloud.gcp.pubsub.converters.SimpleMessageConverter;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.converter.MessageConversionException;
+import org.springframework.messaging.converter.MessageConverter;
+
 import com.google.api.gax.grpc.ExecutorProvider;
 import com.google.api.gax.grpc.InstantiatingExecutorProvider;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.pubsub.spi.v1.Publisher;
 import com.google.pubsub.v1.PubsubMessage;
 import com.google.pubsub.v1.TopicName;
-
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.cloud.gcp.pubsub.converters.SimpleMessageConverter;
-import org.springframework.cloud.gcp.pubsub.integration.converters.SimpleMessageConverter;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.converter.MessageConversionException;
-import org.springframework.messaging.converter.MessageConverter;
 
 /**
  * @author Vinicius Carvalho
@@ -61,7 +60,7 @@ public class PubSubTemplate implements PubSubOperations, InitializingBean {
 		this.credentials = credentials;
 		this.executorProvider = InstantiatingExecutorProvider.newBuilder()
 				.setExecutorThreadCount(concurrentProducers).build();
-		this.messageConverter = new SimpleMessageConverter();
+		this.messageConverter = messageConverter;
 	}
 
 	@Override
